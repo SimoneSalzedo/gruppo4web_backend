@@ -4,8 +4,8 @@
   "description": "This is the backend web server for the project: \"gruppo4web\"",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node public/js/index.js",
+    "dev": "nodemon public/js/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
