@@ -4,7 +4,7 @@ const app = express()
 const cors = require('cors')
 const logger = require('../../utils/logger')
 const mongoose = require('mongoose')
-
+const upload = require('../../utils/storageUtil')
 
 //connecting to mongodb...
 logger.info('connecting to', config.MONGODB_URI)
