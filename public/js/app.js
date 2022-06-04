@@ -5,10 +5,11 @@ const cors = require('cors')
 const logger = require('../../utils/logger')
 const mongoose = require('mongoose')
 
+
 //connecting to mongodb...
 logger.info('connecting to', config.MONGODB_URI)
 
-mongoose.Mongoose.connect(config.MONGODB_URI)
+mongoose.connect(config.MONGODB_URI) //Bug that gives warning
     .then(() => {
         logger.info('connected to MongoDB')
     })
