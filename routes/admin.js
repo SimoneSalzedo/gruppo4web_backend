@@ -7,7 +7,7 @@ adminRouter.get('/', (req, res) => {
     res.render('registerAdmin.ejs')
 })
     .post('/', async (req, res) => {
-        const email = req.body.email
+         const email = req.body.email
         if(req.body.password === undefined){console.log('Password is not defined')}
         const passwordHash = await bcrypt.hash( req.body.password, 10)
         let isAdmin = true  //ADMIN HAS ISADMIN TRUE
