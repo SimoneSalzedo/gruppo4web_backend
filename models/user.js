@@ -4,7 +4,6 @@ const passportLocalMongoose = require('passport-local-mongoose')
 const User = new mongoose.Schema({
     username: { type: String, unique: true },
     passwordHash: String,
-    isAdmin:Boolean
 })
 
 User.set('toJSON', {

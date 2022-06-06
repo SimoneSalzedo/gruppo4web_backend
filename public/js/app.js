@@ -13,6 +13,7 @@ const passport = require("passport")
 const loginRouter = require("../../routes/login")
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const cookieSession = require("cookie-session");
 const LocalStrategy = require('passport-local').Strategy
 const flash = require('connect-flash')
 const User = require('../../models/user')
@@ -33,21 +34,21 @@ app.use(cors())
 app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('view-engine', 'ejs')
-app.use(cookieParser());
+app.use(cookieParser())
 app.use(session({
     secret: 'youwouldnevernow',
     resave: false,
     saveUninitialized: true,
     maxAge: 3600000
 }));
-app.use(flash());
+app.use(flash())
 app.use("menu", menu)
 app.use('/register', usersRouter)
 app.use('/registerAdmin', adminRouter)
 app.use('/auth', loginRouter)
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+app.use(passport.initialize())
+app.use(passport.session())
+passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 //request handling...

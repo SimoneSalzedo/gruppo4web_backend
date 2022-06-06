@@ -2,14 +2,16 @@ const User = require('../models/user')
 const passport = require('passport')
 const loginRouter = require('express').Router()
 
-loginRouter
+loginRouter.use(passport.session())
 
     .get('/register', (req, res)=> {
         res.render('register.ejs', {})
+        console.log('Your authention is ', req.isAuthenticated())
 })
 
     .get('/registerAdmin', (req, res)=> {
         res.render('registerAdmin.ejs', {})
+        console.log('Your authention is ', req.isAuthenticated())
 })
 
     .post('/registerAdmin', (req, res)=> {
@@ -42,10 +44,15 @@ loginRouter
     .post('/login', passport.authenticate('local', { failureRedirect: '/failure', failureFlash: true }, ), function(req, res) {
         console.log("Connection established!")
         console.log('You just authenticated', req.isAuthenticated())
+        res.redirect('register')
 })
 
     .get('/logout', function(req, res) {
-        req.logout()
+        req.session.destroy(function (err) {
+            res.redirect('/'); //Inside a callback… bulletproof!
+        })
+        console.log("You just disconnected!")
+        console.log('you are not authenticated', req.isAuthenticated())
         res.redirect('/')
 });
 
