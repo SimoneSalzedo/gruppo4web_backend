@@ -1,12 +1,13 @@
 const mongoose = require('mongoose')
+const passportLocalMongoose = require('passport-local-mongoose')
 
-const userSchema = new mongoose.Schema({
-    email: { type: String, unique: true },
+const User = new mongoose.Schema({
+    username: { type: String, unique: true },
     passwordHash: String,
     isAdmin:Boolean
 })
 
-userSchema.set('toJSON', {
+User.set('toJSON', {
     transform: (document, returnedObject) => {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
@@ -14,7 +15,7 @@ userSchema.set('toJSON', {
         delete returnedObject.passwordHash
     }
 })
+User.plugin(passportLocalMongoose);
 
-const User = mongoose.model('User', userSchema)
 
-module.exports = User
+module.exports = mongoose.model('User', User);
