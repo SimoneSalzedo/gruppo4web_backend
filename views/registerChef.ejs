@@ -1,10 +1,10 @@
 <!DOCTYPE>
 <html lang="en">
-<head><title>Register an Admin page</title></head>
+<head><title>Register a Chef page</title></head>
 <body>
-<form class="login-form"  method="POST" action="/auth/registerAdmin"  target="_self">
+<form class="login-form"  method="POST" action="/auth/registerChef"  target="_self">
     <fieldset>
-        <legend> Register an Admin:: </legend>
+        <legend> Register a Chef:: </legend>
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email"><br>
         <label for="password">Password:</label><br>
@@ -12,9 +12,9 @@
         <input type="submit" value="Submit"><br><br>
     </fieldset>
 </form>
-    <footer>
+<footer>
     <p>Are you trying to register a <a href="/auth/register">normal user</a>?</p>
-        <p>Are you trying to register a <a href="/auth/registerChef">chef</a>?</p>
-    </footer>
+    <p>Are you trying to register a <a href="/auth/registerAdmin">admin</a>?</p>
+</footer>
 </body>
 </html>
