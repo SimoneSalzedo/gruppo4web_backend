@@ -1,10 +1,12 @@
 const mongoose = require('mongoose')
 
 const menuItemSchema = new mongoose.Schema({
-    id: Number,
-    content: String,
+    itemName: { type: String, unique: true },
     price: Number,
-    //TODO IMAGE
+    description: {
+        type: String,
+        default: "Mhm, Yummi!!"
+    }
 })
 
 const menuItem = mongoose.model('menuItem', menuItemSchema)

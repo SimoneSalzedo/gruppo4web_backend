@@ -1,0 +1,12 @@
+<div>
+    <link rel="stylesheet" type="text/css" href="/menu.css">
+<ul class="menuList">
+<% items.forEach(function(item) { %>
+        <li>
+            <p class="itemName"><%= item.itemName %></p><br>
+            <p class="price"><%= item.price %> €</p>
+            <p class="description"><%= item.description%></p>
+            <button>Add to your order</button>
+        </li>
+    <% }); %></ul>
+</div>

@@ -6,17 +6,18 @@ const logger = require('../../utils/logger')
 const mongoose = require('mongoose')
 const upload = require('../../utils/storageUtil')
 const menu = require('../../routes/menu')
-const usersRouter = require("../../routes/user")
 const bodyParser = require('body-parser')
 const adminRouter = require("../../routes/admin")
 const passport = require("passport")
 const loginRouter = require("../../routes/login")
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
-const cookieSession = require("cookie-session");
 const LocalStrategy = require('passport-local').Strategy
 const flash = require('connect-flash')
 const User = require('../../models/user')
+const {checkAuth} = require("../../controllers/login")
+const path = require('path')
+const menuItem = require("../../models/menuItem");
 //connecting to mongodb...
 logger.info('connecting to', config.MONGODB_URI)
 
@@ -42,9 +43,11 @@ app.use(session({
     maxAge: 3600000
 }));
 app.use(flash())
+let dirname= __dirname.substring(0,__dirname.length-2)
+dirname = path.join(dirname, 'css')
+app.use(express.static(dirname))
 app.use("menu", menu)
-app.use('/register', usersRouter)
-app.use('/registerAdmin', adminRouter)
+app.use('/admin', adminRouter)
 app.use('/auth', loginRouter)
 app.use(passport.initialize())
 app.use(passport.session())
@@ -53,6 +56,10 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 //request handling...
 app.get('/',(req, res, next)=>{
+    checkAuth(req)
+    console.log(dirname)
+    menuItem.find({}).then(items =>{
+        res.render('index.ejs', {items: items})})
     logger.info(`Hey, you, you're finally awake!`)
 })
 

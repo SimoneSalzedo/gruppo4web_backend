@@ -15,7 +15,6 @@ router.route('/:id')
     .get((req, res)=> {
         menuItem.find({}).then(items =>{
             res.json(items)
-            //TODO Allergeni
         })
         //give back the menu page
     })
