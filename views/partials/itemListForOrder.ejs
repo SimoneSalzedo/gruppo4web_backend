@@ -1,0 +1,55 @@
+<%let itemNumber = items.length %>
+<div class="menuContainer">
+    <link rel="stylesheet" type="text/css" href="/itemListForOrder.css">
+    <ul class="menuList">
+        <% items.forEach(function(item, id) { %>
+            <li>
+                <p class="itemName"><%= item.itemName %></p><br>
+                <p class="price"><%= item.price %> €</p>
+                <p class="description"><%= item.description%></p>
+                <button id="<%=id%>" name="<%=item.itemName%>">Add to your order</button><%})%>
+            </li>
+        </ul>
+</div>
+<aside id="listContainter">
+    <h2>Your oder:</h2>
+    <ul id="list">
+    </ul>
+    <h2 id="total"></h2>
+</aside>
+<script>
+    let btnArr = []
+    let i = 0
+    let total = 0
+    <%items.forEach((item)=>{ %>
+    btnArr.push(document.getElementById(i))
+    console.log(i)
+    i=i+1
+    <%})%>
+    let retrivePrice = function(btn) {
+        let priceArr = document.getElementsByClassName('price')
+        return Number.parseFloat((priceArr [btn.getAttribute('id')]).textContent)
+    }
+    btnArr.forEach(item => {
+        item.addEventListener('click', ()=>{
+            total = total + retrivePrice(item)
+            console.log('click' + item.getAttribute('Name'))
+            const listItem = document.createElement('li');
+            const newElText = document.createElement('span');
+            newElText.textContent =item.getAttribute('Name');
+            const delButton = document.createElement('button');
+            delButton.classList.add('delbtn')
+            delButton.textContent = 'X';
+            listItem.appendChild(newElText);
+            listItem.appendChild(delButton);
+            document.getElementById("list").appendChild(listItem);
+            delButton.addEventListener('click', () => {
+                document.getElementById("list").removeChild(listItem);
+                total = total - retrivePrice(item)
+                document.getElementById('total').textContent = 'Your total is: ' + total;
+            })
+            document.getElementById('total').textContent = 'Your total is: ' + total;
+        })
+    })
+</script>
+
