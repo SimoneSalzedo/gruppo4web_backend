@@ -8,15 +8,22 @@
 <div class="listContainer">
 <ul>
     <% items.forEach(function(item) { %>
-        <button class="deletebtn">X</button>
+    <form method="post" action="/admin/controlpanel">
+        <input type="text" class="hidden" name="itemName" value="<%= item.itemName%>">
+        <input type="submit" class="deletebtn" value="X">
+    </form>
         <li>
             <strong><%= item.itemName %></strong>
             <br>
             Price: <%= item.price %> €
         </li>
+
     <% }); %>
 </ul>
     </div>
 <%- include('partials/addItemForm') %>
 </body>
+<script>
+
+</script>
 </html>

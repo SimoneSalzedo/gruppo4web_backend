@@ -1,11 +1,16 @@
 const mongoose = require('mongoose')
 
 const Order = new mongoose.Schema({
-    username: { type: String, unique: true },
+    username:  String,
     timeStamp: Date,
-    Status: ['pending','processing','ready'],
-    default: 'pending'
-})
+    itemNameArray: [String],
+    total: Number,
+    status: {
+        type: String,
+        enum: ['pending','processing','ready'],
+        default: 'pending'
+    },
+    })
 
 Order.set('toJSON', {
     transform: (document, returnedObject) => {

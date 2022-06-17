@@ -113,7 +113,7 @@
 }
 
 #listContainter {
-    width: 50vw;
+    width: 70vw;
     background-color: #b7b7b7;
     float: right;
     border-left-width: 5px;
@@ -171,5 +171,25 @@ h2 {
     -moz-border-radius: 10px;
     border-radius: 10px;
     text-decoration: none;
+}
+
+#paynow {
+    width: 100%;
+    margin-top: 1vh;
+    float: left;
+    color: #ffffff;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+    line-height: 25px;
+    border-radius: 4px;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: #ffa51e;
+
+}
+
+.hidden {
+    display: none;
 }
 

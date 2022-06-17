@@ -16,14 +16,17 @@
     <ul id="list">
     </ul>
     <h2 id="total"></h2>
+    <form id="paynow" action="/user/orderstatus" method="post">
+        <input type="submit" id="paybtn" value="Pay Now">
+    </form>
 </aside>
 <script>
+    //creating local order list and sending it via POST to Node.js
     let btnArr = []
     let i = 0
     let total = 0
     <%items.forEach((item)=>{ %>
     btnArr.push(document.getElementById(i))
-    console.log(i)
     i=i+1
     <%})%>
     let retrivePrice = function(btn) {
@@ -33,23 +36,40 @@
     btnArr.forEach(item => {
         item.addEventListener('click', ()=>{
             total = total + retrivePrice(item)
+            //create a hidden input to send DATA trough post in case of Adding product to the list
+            const input = document.createElement('input')
+            input.setAttribute('type', 'text')
+            input.setAttribute('name', 'itemNameInput')
+            input.setAttribute('class', 'hidden')
+            input.setAttribute('value', item.getAttribute('Name'))
+            document.getElementById('paynow').appendChild(input)
+            //manipulating local for User Experience purposes
             console.log('click' + item.getAttribute('Name'))
-            const listItem = document.createElement('li');
-            const newElText = document.createElement('span');
-            newElText.textContent =item.getAttribute('Name');
-            const delButton = document.createElement('button');
+            const listItem = document.createElement('li')
+            const newElText = document.createElement('span')
+            newElText.textContent =item.getAttribute('Name')
+            const delButton = document.createElement('button')
             delButton.classList.add('delbtn')
-            delButton.textContent = 'X';
-            listItem.appendChild(newElText);
-            listItem.appendChild(delButton);
-            document.getElementById("list").appendChild(listItem);
+            delButton.textContent = 'X'
+            listItem.appendChild(newElText)
+            listItem.appendChild(delButton)
+            document.getElementById("list").appendChild(listItem)
             delButton.addEventListener('click', () => {
-                document.getElementById("list").removeChild(listItem);
+                document.getElementById("list").removeChild(listItem)
                 total = total - retrivePrice(item)
-                document.getElementById('total').textContent = 'Your total is: ' + total;
+                document.getElementById('total').textContent = 'Your total is: ' + total
+                //hidden input manipulation
+                document.getElementById("paynow").removeChild(input)
             })
-            document.getElementById('total').textContent = 'Your total is: ' + total;
+            document.getElementById('total').textContent = 'Your total is: ' + total
         })
     })
+    //including total for DATA transfer in FORMDATA
+    document.getElementById("paybtn").addEventListener("click", function () {
+    const inputNum = document.createElement('input')
+    inputNum.setAttribute('type', 'number')
+    inputNum.setAttribute('class', 'hidden')
+    inputNum.setAttribute('name', 'total')
+    inputNum.setAttribute('value', total)
+    document.getElementById('paynow').appendChild(inputNum)})
 </script>
-

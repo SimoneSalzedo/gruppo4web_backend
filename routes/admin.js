@@ -1,6 +1,6 @@
 const adminRouter = require('express').Router()
 const menuItem = require('../models/menuItem')
-const Role = require("../models/roles")
+const Role = require("../models/role")
 const passport = require("passport");
 //router to handling all admin priviledged functionalities
 
@@ -19,6 +19,7 @@ adminRouter.use(passport.session())
             res.render('controlpanel.ejs', {items: items})})})
 
     .post('/controlpanel', (req, res) => {
+        if(req.body.createupdate){
         menuItem.find({itemName: req.body.itemName}).then(async result => {
             if (JSON.stringify(result).substring(47, 47 + req.body.itemName.length) !== req.body.itemName) {
                 const item = new menuItem({
@@ -35,8 +36,12 @@ adminRouter.use(passport.session())
                 await menuItem.updateOne({itemName: req.body.itemName}, {$set: {'price': req.body.price}})
                 res.redirect('/admin/controlpanel')
             }
-        }).catch(err =>console.log('And error occurred: ', err))
-
+        }).catch(err =>console.log('And error occurred: ', err))}
+        else{
+            menuItem.deleteOne({itemName: req.body.itemName}).then(async result => {
+                console.log(req.body.itemName , ' DELETED SUCCESSFULLY, with result: ', result)
+                res.redirect('/admin/controlpanel')})
+        }
     })
 
     .post('/PATH:TO:ADD:ITEM', (req, res) =>{
