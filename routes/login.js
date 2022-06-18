@@ -3,15 +3,15 @@ const passport = require('passport')
 const loginRouter = require('express').Router()
 const Role = require('../models/role')
 const {registerAdmin, registerUser, registerChef} = require("../controllers/users");
-const {checkAuth, authLogout} = require("../controllers/login");
+const {checkAuthDebug, authLogout, checkAuth} = require("../controllers/login");
+const async = require("async");
+
 loginRouter.use(passport.session())
 
     .get('/register', (req, res)=> {
-        checkAuth(req)
         res.render('register.ejs', {})})
 
     .get('/registerAdmin', (req, res)=> {
-        checkAuth(req)
         res.render('registerAdmin.ejs', {})})
 
     .post('/registerAdmin', (req, res)=> {
@@ -23,23 +23,28 @@ loginRouter.use(passport.session())
         res.redirect('/')})
 
     .get('/login', (req, res) => {
-        checkAuth(req)
+        checkAuthDebug(req)
         res.render('login.ejs', {user: req.user, message: req.flash('error')})})
 
     .post('/login', passport.authenticate('local', { failureRedirect: '/failure', failureFlash: true }, ), function(req, res) {
-        console.log("Connection established!")
-        checkAuth(req)
-        res.redirect('register')})
+        //TODO FAILURE PAGE
+            console.log("Connection established!")
+        checkAuthDebug(req)
+        res.redirect('/')})
 
-    .get('/logout', function(req, res) {
+    .get('/logout', (req, res)=>{
         authLogout(req, res)})
 
-    .get('/registerChef', (req, res)=> {
-        res.render('registerChef.ejs', {})
+    .get('/registerChef', (req, res)=>{
+        res.render('registerChef.ejs')
         console.log('Your authenticaton is ', req.isAuthenticated())})
 
-    .post('/registerChef', function(req, res) {
+    .post('/registerChef', (req, res)=>{
         registerChef(req, res)
-        res.redirect('/')});
+        res.redirect('/')})
+
+    .get('/redirectingLogin', (req,res)=>{
+         res.render('redirectingLogin.ejs')
+    })
 
 module.exports = loginRouter

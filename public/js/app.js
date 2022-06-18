@@ -15,11 +15,12 @@ const session = require('express-session')
 const LocalStrategy = require('passport-local').Strategy
 const flash = require('connect-flash')
 const User = require('../../models/user')
-const {checkAuth} = require("../../controllers/login")
+const {checkAuthDebug} = require("../../controllers/login")
 const path = require('path')
 const menuItem = require("../../models/menuItem")
 const chefRouter = require("../../routes/chef")
 const userRouter = require("../../routes/user")
+let db = undefined
 //connecting to mongodb...
 logger.info('connecting to', config.MONGODB_URI)
 
@@ -60,12 +61,17 @@ passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 //request handling...
 app.get('/',(req, res, next)=>{
-    checkAuth(req)
+    checkAuthDebug(req)
     console.log(dirname)
     menuItem.find({}).then(items =>{
         res.render('index.ejs', {items: items})})
     logger.info(`Hey, you, you're finally awake!`)
 })
-
+app.get('/failure', (req, res) => {
+    res.render('failure.ejs')
+})
+app.get('/unauthorized', (req, res) => {
+    res.render('unauthorized.ejs')
+})
 //exporting the module...
 module.exports = app;

@@ -1,0 +1,39 @@
+<div class="orderContainer">
+    <h2>Oder List:</h2>
+    <p>Use the selector to change the status of an order...</p><br>
+<ul class="orderList">
+    <% items.forEach(function(item, id) { %>
+    <li>
+        <p class="username"><%= item.username %></p><br>
+        <ul>
+        <%item.itemNameArray.forEach(function (itemName) {%>
+                <li> class="itemList"><%= itemName %> </li><%})%>
+        </ul>
+        <form action="/chef/chefpanel" method="post">
+            <label>Choose a status: <br>
+                <select name="status">
+                    <option value="pending">Pending</option>
+                    <option value="processing">Processing</option>
+                    <option value="ready">Ready</option>
+                </select>
+            </label>
+            <label class="hidden">
+                <input type="text" name="_id" value="<%=item._id%>">
+            </label>
+            <input type="submit" id="<%=id%>" value="Change Order Status">
+        </form>
+        <%})%>
+    </li>
+</ul>
+    <script>
+        const eventSource = new EventSource('http://localhost:3001/user/orderstatus', { withCredentials: true })
+        eventSource.onmessage = (e) => {
+            console.log("Ping arrived!!")
+            window.alert(`A new order has arrived or data is changed for whatever reason the page will be refreshed for you to see the updated order list...`)
+            window.setTimeout(function(){
+                //refresh current page
+                window.location.href = "http://localhost:3001/chef/chefpanel"
+            }, 100)
+        }
+    </script>
+</div>

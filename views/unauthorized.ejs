@@ -1,0 +1,20 @@
+<!DOCTYPE>
+<html lang="en">
+    <head>
+        <title>Unauthorized...</title>
+        <link rel="stylesheet" type="text/css" href="/redirectingLogin.css">
+    </head>
+    <body>
+        <hgroup>
+            <h1>You have no authorization to access this page</h1>
+            <h2>Redirecting to home page...</h2>
+        </hgroup>
+    </body>
+    <div class="loader"></div>
+    <script>
+    window.setTimeout(function(){
+        // Move to the login page
+        window.location.href = "http://localhost:3001/";
+    }, 3500);
+    </script>
+</html>

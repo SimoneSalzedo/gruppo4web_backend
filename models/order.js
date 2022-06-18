@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 
 const Order = new mongoose.Schema({
     username:  String,
-    timeStamp: Date,
     itemNameArray: [String],
     total: Number,
     status: {

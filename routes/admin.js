@@ -2,23 +2,25 @@ const adminRouter = require('express').Router()
 const menuItem = require('../models/menuItem')
 const Role = require("../models/role")
 const passport = require("passport");
+const {checkAuth} = require('../controllers/login')
+
 //router to handling all admin priviledged functionalities
 
 adminRouter.use(passport.session())
-
+        //ONLY FOR DEBUGGIN
     .get('/', (req, res) => {
-        menuItem.find({}).then(items =>{
-        res.render('adminControlPanel.ejs',{data: "items"} )})})
-
-    .get('/menudata', (req, res) => {
-        console.log('menudata')
-        menuItem.find({}).then(promise=>{res.json(promise)})})
+        checkAuth(req, res, "admin")
+    })
 
     .get('/controlpanel', (req, res) => {
+        checkAuth(req, res, "admin")
         menuItem.find({}).then(items =>{
-            res.render('controlpanel.ejs', {items: items})})})
+            res.render('controlpanel.ejs', {items: items})
+        })
+    })
 
     .post('/controlpanel', (req, res) => {
+        checkAuth(req, res, "admin")
         if(req.body.createupdate){
         menuItem.find({itemName: req.body.itemName}).then(async result => {
             if (JSON.stringify(result).substring(47, 47 + req.body.itemName.length) !== req.body.itemName) {
@@ -43,19 +45,5 @@ adminRouter.use(passport.session())
                 res.redirect('/admin/controlpanel')})
         }
     })
-
-    .post('/PATH:TO:ADD:ITEM', (req, res) =>{
-        //adding item to database handling
-
-        const item = new menuItem({
-            itemName: req.body.itemName,
-            price: req.body.price,
-            description: req.body.description
-        })
-        item.save().then(savedItem => {
-            console.log('Item Saved')
-            res.render('adminAddItem.ejs')})
-            .catch(err =>console.log('And error occurred: ', err))
-})
 
 module.exports = adminRouter

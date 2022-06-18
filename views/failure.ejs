@@ -1,0 +1,19 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="/redirectingLogin.css">
+    <title>Failed to authenticate...</title>
+</head>
+<body>
+<hgroup>
+    <h1>There is no user with this credentials</h1>
+    <h2>Redirecting to login page...</h2>
+</hgroup>
+<div class="loader"></div>
+</body>
+<script>
+    window.setTimeout(function(){
+        // Move to the login page
+        window.location.href = "http://localhost:3001/auth/login";
+    }, 3500);
+</script>
+</html>

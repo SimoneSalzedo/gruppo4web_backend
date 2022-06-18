@@ -1,0 +1,17 @@
+<!DOCTYPE>
+<html lang="en">
+<head><title>Redirecting...</title><link rel="stylesheet" type="text/css" href="/redirectingLogin.css"></head>
+    <body>
+        <hgroup>
+            <h1>Please authenticate first to access this page :)</h1>
+            <h2>Redirecting to the login page...</h2>
+        </hgroup>
+        <div class="loader"></div>
+    </body>
+    <script>
+        window.setTimeout(function(){
+            // Move to the login page
+            window.location.href = "http://localhost:3001/auth/login";
+        }, 3500);
+    </script>
+</html>
