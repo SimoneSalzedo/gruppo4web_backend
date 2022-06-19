@@ -1,16 +1,17 @@
+<link rel="stylesheet" type="text/css" href="/orderListForChef.css">
 <div class="orderContainer">
     <h2>Oder List:</h2>
     <p>Use the selector to change the status of an order...</p><br>
     <p>The order marked as completed will be available to the admin to see them in form of receipts and eliminated from orders database collection</p><br>
 <ul class="orderList">
     <% items.forEach(function(item, id) { %>
-    <li>
+    <li class="biglist">
         <form action="/chef/chefpanel" method="post">
-        <p class="username"><%= item.username %></p><br>
-            <input type="submit" id="markcompleted<%=id%>" name="markcompleted" value="Mark order as completed">
+        <p class="username">This order was requested by: <strong><%= item.username %></strong></p><br>
+            <input type="submit" id="markcompleted<%=id%>" class="markcompleted" name="markcompleted" value="Mark order as completed">
         <ul>
         <%item.itemNameArray.forEach(function (itemName) {%>
-                <li> class="itemList"><%= itemName %> </li><%})%>
+                <li class="itemList"><%= itemName %> </li><%})%>
         </ul>
             <label>Choose a status: <br>
                 <select name="status">
@@ -19,10 +20,13 @@
                     <option value="ready">Ready</option>
                 </select>
             </label>
+            <span>
+                Current status: <%=item.status%>
+            </span>
             <label class="hidden">
                 <input type="text" name="_id" value="<%=item._id%>">
             </label>
-            <input type="submit" id="changestatus<%=id%>" name="changestatus" value="Change Order Status">
+            <input type="submit" class="changestatus" id="changestatus<%=id%>" name="changestatus" value="Change Order Status">
         </form>
         <%})%>
     </li>

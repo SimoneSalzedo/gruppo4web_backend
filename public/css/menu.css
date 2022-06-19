@@ -26,6 +26,7 @@
 }
 
 .price {
+    overflow: hidden;
     font-size: 70px;
     margin: 0;
     position: absolute;
@@ -36,12 +37,14 @@
 }
 
 .itemName {
+    overflow: hidden;
     font-size: 30px;
     color: #b7b7b7;
     margin-bottom: 5px;
 }
 
 .description{
+    overflow: hidden;
     font-size: 16px;
     line-height: 18px;
     color: #b7b7b7;

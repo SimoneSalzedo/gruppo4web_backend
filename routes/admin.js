@@ -3,6 +3,7 @@ const menuItem = require('../models/menuItem')
 const Role = require("../models/role")
 const passport = require("passport");
 const {checkAuth} = require('../controllers/login')
+const Receipt = require('../models/receipt')
 
 //router to handling all admin priviledged functionalities
 
@@ -14,9 +15,10 @@ adminRouter.use(passport.session())
 
     .get('/controlpanel', (req, res) => {
         checkAuth(req, res, "admin")
+        Receipt.find({}).then( receipts =>{
         menuItem.find({}).then(items =>{
-            res.render('controlpanel.ejs', {items: items})
-        })
+            res.render('controlpanel.ejs', {items: items, receipts: receipts})
+        })})
     })
 
     .post('/controlpanel', (req, res) => {

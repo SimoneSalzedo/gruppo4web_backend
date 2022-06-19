@@ -1,3 +1,33 @@
+* {
+ text-align: center;
+    background-color: #262a2b;
+    color: #ffa51e;
+}
+
+.orderContainer {
+    padding-top: 15%;
+}
+
+#loader {
+    display:block;
+    margin: auto;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #ffa51e;
+    animation: spin 2s linear infinite;
+}
+
+ul {
+    padding-left: 0;
+    list-style-type: none;
+
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

@@ -4,9 +4,10 @@
 }
 
 .listContainer {
-    display:inline-table;
+    overflow: auto;
+    float:right;
     width: 50%;
-    height: 100%;
+    height: 90%;
     outline: 2px outset #ffa51e;
     border-width: 2px;
     border-style: outset;
