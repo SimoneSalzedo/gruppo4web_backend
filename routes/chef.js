@@ -6,6 +6,8 @@ const {registerAdmin, registerUser, registerChef} = require("../controllers/user
 const {checkAuthDebug, authLogout} = require("../controllers/login")
 const menuItem = require("../models/menuItem");
 const Order = require('../models/order')
+const {startTransaction, commitTransaction, abortTransaction, startSession} = require('mongoose')
+const Receipt = require('../models/receipt')
 
 chefRouter.use(passport.session())
 
@@ -14,16 +16,31 @@ chefRouter.use(passport.session())
             res.render('chefpanel.ejs', {items: items})
     })})
 
-    .post('/chefpanel', (req, res)=>{
-        //cambia lo stato in mongodb e fanne avvertire dell'accaduto l'utente nella pagina orderStatus
-        Order.updateOne({_id: req.body._id}, {$set: {'status': req.body.status}}).catch(err =>console.log('An error occurred: ', err))
-        //res.redirect('/chef/chefpanel')
-    })
+    .post('/chefpanel', async (req, res) => {
+        if (req.body.changestatus) {
+            //cambia lo stato in mongodb e fanne avvertire dell'accaduto l'utente nella pagina orderStatus
+            Order.updateOne({_id: req.body._id}, {$set: {'status': req.body.status}}).catch(err => console.log('An error occurred: ', err))
+            //res.redirect('/chef/chefpanel')
+        } else {
+            //THIS OPERATION MUST BE ATOMIC
+            Order.findOneAndDelete({_id: req.body._id})
+                .then(deletedOrder => {
+                    const receipt = new Receipt({
+                        username: deletedOrder.username,
+                        itemNameArray: deletedOrder.itemNameArray,
+                        total: deletedOrder.total
+                    })
+                    receipt.save().then(savedOrder => {
+                        console.log('##Order Registered Successfully')
+                    })
+                })
+                .catch(err => console.log('An error occurred: ', err))
+        }})
 
     .get('/chefstream/:id', (req, res) => {
-        //gestisci l'eventSource
+        //handling eventSource
         console.log('IM HERE')
-        const changeStream = Order.collection.watch();
+        const changeStream = Order.collection.watch()
         res.writeHead(200, {
             'Content-Type': 'text/event-stream',
             'Cache-Control': 'no-cache',

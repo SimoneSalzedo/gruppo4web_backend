@@ -1,15 +1,17 @@
 <div class="orderContainer">
     <h2>Oder List:</h2>
     <p>Use the selector to change the status of an order...</p><br>
+    <p>The order marked as completed will be available to the admin to see them in form of receipts and eliminated from orders database collection</p><br>
 <ul class="orderList">
     <% items.forEach(function(item, id) { %>
     <li>
+        <form action="/chef/chefpanel" method="post">
         <p class="username"><%= item.username %></p><br>
+            <input type="submit" id="markcompleted<%=id%>" name="markcompleted" value="Mark order as completed">
         <ul>
         <%item.itemNameArray.forEach(function (itemName) {%>
                 <li> class="itemList"><%= itemName %> </li><%})%>
         </ul>
-        <form action="/chef/chefpanel" method="post">
             <label>Choose a status: <br>
                 <select name="status">
                     <option value="pending">Pending</option>
@@ -20,7 +22,7 @@
             <label class="hidden">
                 <input type="text" name="_id" value="<%=item._id%>">
             </label>
-            <input type="submit" id="<%=id%>" value="Change Order Status">
+            <input type="submit" id="changestatus<%=id%>" name="changestatus" value="Change Order Status">
         </form>
         <%})%>
     </li>
