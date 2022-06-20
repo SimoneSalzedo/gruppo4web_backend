@@ -7,12 +7,12 @@
     <% items.forEach(function(item, id) { %>
     <li class="biglist">
         <form action="/chef/chefpanel" method="post">
-        <p class="username">This order was requested by: <strong><%= item.username %></strong></p><br>
+            <p class="username">This order was requested by: <strong><%= item.username %></strong></p><br>
             <input type="submit" id="markcompleted<%=id%>" class="markcompleted" name="markcompleted" value="Mark order as completed">
-        <ul>
-        <%item.itemNameArray.forEach(function (itemName) {%>
+            <ul>
+                <%item.itemNameArray.forEach(function (itemName) {%>
                 <li class="itemList"><%= itemName %> </li><%})%>
-        </ul>
+            </ul>
             <label>Choose a status: <br>
                 <select name="status">
                     <option value="pending">Pending</option>
@@ -33,7 +33,7 @@
 </ul>
     <script>
         const eventSource = new EventSource('http://localhost:3000/user/orderstatus', { withCredentials: true })
-        eventSource.onmessage = (e) => {
+        eventSource.onmessage = (ping) => {
             console.log("Ping arrived!!")
             window.alert(`A new order has arrived or data is changed for whatever reason the page will be refreshed for you to see the updated order list...`)
             window.setTimeout(function(){

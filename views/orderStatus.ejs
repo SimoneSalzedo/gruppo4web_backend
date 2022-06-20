@@ -29,6 +29,6 @@
             document.getElementById('loader').setAttribute('style', 'display: none;')
             document.getElementById('statusinfo').textContent = `You can go retrieve your order!!`
         }
-    eventSource.onmessage = (e) => {window.location.href = "http://localhost:3000/user/orderStatus/<%=savedOrder._id%>"}
+    eventSource.onmessage = (ping) => {window.location.href = "http://localhost:3000/user/orderStatus/<%=savedOrder._id%>"}
 </script>
 </html>

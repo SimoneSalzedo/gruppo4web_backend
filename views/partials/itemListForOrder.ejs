@@ -13,8 +13,7 @@
 </div>
 <aside id="listContainter">
     <h2>Your oder:</h2>
-    <ul id="list">
-    </ul>
+    <ul id="list"></ul>
     <h2 id="total"></h2>
     <form id="paynow" action="/user/orderstatus" method="post">
         <input type="submit" id="paybtn" value="Pay Now">
@@ -25,7 +24,7 @@
     let btnArr = []
     let i = 0
     let total = 0.00
-    <%items.forEach((item)=>{ %>
+    <%items.forEach(()=>{ %>
     btnArr.push(document.getElementById(i))
     i=i+1
     <%})%>

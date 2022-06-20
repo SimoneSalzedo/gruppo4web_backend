@@ -6,10 +6,10 @@
     <fieldset>
         <legend> Register a Chef:: </legend>
         <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
+        <input type="email" id="email" required name="email"><br>
         <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <input type="submit" value="Submit"><br><br>
+        <input type="password" required id="password" name="password"><br>
+        <input type="submit" id="register" value="Submit"><br><br>
     </fieldset>
 </form>
 <footer>
@@ -17,4 +17,10 @@
     <p>Are you trying to register a <a href="/auth/registerAdmin">admin</a>?</p>
 </footer>
 </body>
+<script>
+    document.getElementById('register').addEventListener('click', ()=>{
+        document.getElementById('email').value = document.getElementById('email').value.trim()
+        document.getElementById('password').value = document.getElementById('password').value.trim()
+    })
+</script>
 </html>

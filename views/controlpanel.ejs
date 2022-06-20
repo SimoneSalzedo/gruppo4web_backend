@@ -3,23 +3,25 @@
 <head><title>Admin Control Panel</title>
     <link rel="stylesheet" type="text/css" href="/controlpanel.css">
 </head>
-<body><div class="container">
-    <%- include('partials/navbar') %></div>
+<body>
+<div class="container">
+    <%- include('partials/navbar') %>
+</div>
 <div class="listContainer">
-<ul>
-    <% items.forEach(function(item) { %>
-    <form method="post" action="/admin/controlpanel">
-        <input type="text" class="hidden" name="itemName" value="<%= item.itemName%>">
-        <input type="submit" class="deletebtn" value="X">
-    </form>
-        <li>
-            <strong><%= item.itemName %></strong>
-            <br>
-            Price: <%= item.price %> €
-        </li>
-    <% }); %>
-</ul>
-    </div>
+    <ul>
+        <% items.forEach(function(item) { %>
+        <form method="post" action="/admin/controlpanel">
+            <input type="text" class="hidden" name="itemName" value="<%= item.itemName%>">
+            <input type="submit" class="deletebtn" value="X">
+        </form>
+            <li>
+                <strong><%= item.itemName %></strong>
+                <br>
+                Price: <%= item.price %> €
+            </li>
+        <% }); %>
+    </ul>
+</div>
 <%- include('partials/addItemForm') %>
 <%- include('partials/receiptsList') %>
 </body>

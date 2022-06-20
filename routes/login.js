@@ -1,7 +1,7 @@
 const passport = require('passport')
 const loginRouter = require('express').Router()
 const {registerAdmin, registerUser, registerChef} = require("../controllers/login")
-const {checkAuthDebug, authLogout, checkAuth} = require("../controllers/login")
+const {checkAuthDebug, authLogout} = require("../controllers/login")
 
 //router to handle all authorizations requirements, logout, login and register (for all usertype)
 
@@ -14,11 +14,11 @@ loginRouter.use(passport.session())
             res.render('registerAdmin.ejs', {})})
 
     .post('/registerAdmin', (req, res)=> {
-            registerAdmin(req, res)
+            registerAdmin(req)
             res.redirect('/')})
 
     .post('/register', (req, res)=>{
-            registerUser(req, res)
+            registerUser(req)
             res.redirect('/')})
 
     .get('/login', (req, res) => {
@@ -39,7 +39,7 @@ loginRouter.use(passport.session())
     })
 
     .post('/registerChef', (req, res)=>{
-            registerChef(req, res)
+            registerChef(req)
             res.redirect('/')})
 
     .get('/redirectingLogin', (req,res)=>{

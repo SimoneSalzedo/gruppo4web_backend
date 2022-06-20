@@ -28,7 +28,7 @@ exports.postControlPanel = function (req, res) {
                         description: req.body.description
                     })
                     item.save().then(savedItem => {
-                        console.log('Item Saved')
+                        console.log('Item Saved', savedItem)
                         res.redirect('/admin/controlpanel')
                     })
                         .catch(err => console.log('And error occurred: ', err))

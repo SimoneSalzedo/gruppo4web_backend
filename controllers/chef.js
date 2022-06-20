@@ -31,11 +31,11 @@ exports.postChefPanel = function (req, res) {
                         total: deletedOrder.total
                     })
                     receipt.save().then(savedOrder => {
+                        console.log('The order: ', savedOrder)
                         console.log('##Receipt Registered Successfully!')
                         console.log('##The corresponding Order was deleted!')
                     })
-                })
-                .catch(err => console.log('An error occurred: ', err))}
+                }).catch(err => console.log('An error occurred: ', err))}
     }else if(result===null){res.redirect('/auth/redirectingLogin')}else{res.render('failure.ejs')}})
 }
 
@@ -49,7 +49,7 @@ exports.getChefStream = async function (req, res) {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
     })
-    changeStream.on('change', (next) => {
+    changeStream.on('change', () => {
         console.log('im here', req.params.id)
         Order.findOne({_id: req.params.id}).then(result => {
             //ping the EventSource, for debug purposes we use the status

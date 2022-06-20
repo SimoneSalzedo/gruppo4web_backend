@@ -4,13 +4,19 @@
     <form method="post" action="/admin/controlpanel" >
         <fieldset>
             <legend>New menu item Adder :) </legend>
-            <label for="itemName">Name:</label>
-            <input type="text" id="itemName" name="itemName" placeholder="Product name (if it's already in use the element will be updated instead of created)">
+            <label for="itemName" >Name:</label>
+            <input type="text" id="itemName" name="itemName" required placeholder="Product name (if it's already in use the element will be updated instead of created)">
             <label for="price">Price:</label>
-            <input type="Number" id="price" name="price" placeholder="Product price" step=".01">
+            <input type="Number" id="price" name="price" required placeholder="Product price" step=".01">
             <label for="description">Description:</label>
             <textarea id="description" name="description" placeholder="Product description"></textarea>
             <input type="submit" id="createupdate" name="createupdate" value="Create / Update" >
         </fieldset>
     </form>
 </div>
+<script>
+    document.getElementById('createupdate').addEventListener('click', ()=>{
+        document.getElementById('itemName').value = document.getElementById('itemName').value.trim()
+        if(document.getElementById('price').value < 0){document.getElementById('price').value = ''}
+    })
+</script>

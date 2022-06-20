@@ -62,7 +62,7 @@ passport.deserializeUser(User.deserializeUser())
 
 //basic request handling...
 
-app.get('/',(req, res, next)=>{
+app.get('/',(req, res)=>{
     checkAuthDebug(req)
     console.log(dirname)
     menuItem.find({}).then(items =>{

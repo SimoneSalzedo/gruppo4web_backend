@@ -9,14 +9,14 @@ const Role = require('../models/role')
 exports.checkAuthDebug = function(req) {
     console.log('Your authenticaton is ', req.isAuthenticated())}
 
-exports.authLogout = function (req, res) { req.session.destroy(function (err) {
+exports.authLogout = function (req, res) { req.session.destroy(function () {
     console.log('##You are logged out now')
     res.redirect('/')})}
 
-exports.getAuthenticatedUsername = function (req, res) {
+exports.getAuthenticatedUsername = function (req) {
    if(req.isAuthenticated()){
-   console.log('### User is authenticated as: ',req.session.passport.user,' ###')
-   return req.session.passport.user}
+       console.log('### User is authenticated as: ',req.session.passport.user,' ###')
+       return req.session.passport.user}
    else{console.log('### User is not authenticated')}
 }
 
@@ -42,7 +42,7 @@ exports.checkAuth = async function (req, res, authToCheck){
     }
 }
 
-exports.registerAdmin = function (req, res){
+exports.registerAdmin = function (req){
     console.log('##registering a new Admin to the DataBase')
     User.register(new User({username: req.body.email}), req.body.password, function(err) {
         if (err) {
@@ -53,9 +53,9 @@ exports.registerAdmin = function (req, res){
         username: req.body.email,
         userType: 'admin'
     })
-    role.save().then(savedRole => console.log('##Admin Registered Successfully')).catch(err =>console.log('##An error occurred: ', err))}
+    role.save().then(savedRole => console.log('##Admin Registered Successfully ', savedRole)).catch(err =>console.log('##An error occurred: ', err))}
 
-exports.registerUser = function (req, res){
+exports.registerUser = function (req){
     console.log('##registering a new Admin to the DataBase')
     User.register(new User({username: req.body.email}), req.body.password, function(err) {
         if (err) {
@@ -66,9 +66,9 @@ exports.registerUser = function (req, res){
             username: req.body.email,
             userType: 'user'
         })
-        role.save().then(savedRole => console.log('##Admin Registered Successfully')).catch(err =>console.log('##An error occurred: ', err))})}
+        role.save().then(savedRole => console.log('##Admin Registered Successfully ', savedRole)).catch(err =>console.log('##An error occurred: ', err))})}
 
-exports.registerChef = function(req, res) {
+exports.registerChef = function(req) {
     console.log('##registering a new Chef to the DataBase')
     User.register(new User({username: req.body.email}), req.body.password, function(err) {
         if (err) {
@@ -80,4 +80,4 @@ exports.registerChef = function(req, res) {
         username: req.body.email,
         userType: 'chef'
     })
-    role.save().then(savedRole => console.log('##Chef Registered Successfully')).catch(err =>console.log('##An error occurred: ', err))}
+    role.save().then(savedRole => console.log('##Chef Registered Successfully ', savedRole)).catch(err =>console.log('##An error occurred: ', err))}

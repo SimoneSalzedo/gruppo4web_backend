@@ -45,7 +45,7 @@ exports.getOrderStatus = function (req, res) {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
     })
-    changeStream.on('change', (next) => {
+    changeStream.on('change', () => {
         res.write(`data: ping\n\n\ `)
         console.log("Refreshing the page for new content..")
     })

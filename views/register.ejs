@@ -2,19 +2,25 @@
 <html lang="en">
 <head><title>Register a Normal user page</title><link rel="stylesheet" type="text/css" href="/formStyle.css"></head>
 <body>
-<form class="login-form"  method="POST" action="/auth/register"  target="_self">
-    <fieldset>
-        <legend> Register a Normal user:: </legend>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password"><br>
-        <input type="submit" value="Submit"><br><br>
-    </fieldset>
-</form>
+    <form class="login-form"  method="POST" action="/auth/register"  target="_self">
+        <fieldset>
+            <legend> Register a Normal user:: </legend>
+            <label for="email">Email:</label><br>
+            <input type="email" required id="email" name="email"><br>
+            <label for="password">Password:</label><br>
+            <input type="password" required id="password" name="password"><br>
+            <input type="submit" id="register" value="Submit"><br><br>
+        </fieldset>
+    </form>
 <footer>
     <p>Are you trying to register an <a href="/auth/registerAdmin">admin</a>?</p>
     <p>Are you trying to register a <a href="/auth/registerChef">chef</a>?</p>
-    </footer>
+</footer>
 </body>
+<script>
+    document.getElementById('register').addEventListener('click', ()=>{
+        document.getElementById('email').value = document.getElementById('email').value.trim()
+        document.getElementById('password').value = document.getElementById('password').value.trim()
+    })
+</script>
 </html>
