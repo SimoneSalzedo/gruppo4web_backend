@@ -2,6 +2,7 @@
 const User = require('../models/user')
 const passport = require('passport')
 const Role = require('../models/role')
+const {check} = require("express-validator");
 
 exports.checkAuthDebug = function(req) {
     console.log('Your authenticaton is ', req.isAuthenticated())}
@@ -17,19 +18,24 @@ exports.getAuthenticatedUsername = function (req, res) {
    else{console.log('### User is not authenticated')}
 }
 
-exports.checkAuth =  function (req, res, authToCheck){
+exports.checkAuth = async function (req, res, authToCheck){
+    //return true if user is authenticated with the matching requirement, false otherwise
     if(req.isAuthenticated()){
         console.log('Your authenticaton is ', req.isAuthenticated())
-        Role.findOne({username: req.session.passport.user}).then(result => {
+        return await Role.findOne({username: req.session.passport.user}).then(result =>{
             console.log(result.userType)
-            if (result.userType===authToCheck) {
-                console.log('User permission match the requirement needed to access this page')}
-            else{
+            if (result.userType === authToCheck) {
+                console.log('User permission match the requirement needed to access this page')
+                return true;
+            } else {
                 console.log('User Unauthorized')
-                res.render('failure.ejs')
-                //TODO FARE UN HTML PER I CLIENTI NON AUTORIZZATI E REINDIRIZZARLI, come il login
+                return false;
+                //res.render('failure.ejs')
             }
-        })
+        }).catch(err => console.log("An error occurred", err))
     }else{
-        res.redirect('/auth/redirectingLogin')
-    }}
+        //return null is there is no authorization (user/admin/chef is not logged)
+        return null;
+        //res.redirect('/auth/redirectingLogin')
+    }
+}

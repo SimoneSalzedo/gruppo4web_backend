@@ -8,21 +8,21 @@ const Receipt = require('../models/receipt')
 //router to handling all admin priviledged functionalities
 
 adminRouter.use(passport.session())
-        //ONLY FOR DEBUGGIN
+
     .get('/', (req, res) => {
-        checkAuth(req, res, "admin")
+        res.redirect('admin/controlpanel')
     })
 
     .get('/controlpanel', (req, res) => {
-        checkAuth(req, res, "admin")
+        checkAuth(req,res,'admin').then(result => {console.log(result);if(result){
         Receipt.find({}).then( receipts =>{
         menuItem.find({}).then(items =>{
             res.render('controlpanel.ejs', {items: items, receipts: receipts})
-        })})
-    })
+        })})}
+        else if(result===null){res.redirect('/auth/redirectingLogin')}else{res.render('failure.ejs')}})})
 
     .post('/controlpanel', (req, res) => {
-        checkAuth(req, res, "admin")
+        checkAuth(req,res,'admin').then(result => {console.log(result);if(result){
         if(req.body.createupdate){
         menuItem.find({itemName: req.body.itemName}).then(async result => {
             if (JSON.stringify(result).substring(47, 47 + req.body.itemName.length) !== req.body.itemName) {
@@ -46,6 +46,6 @@ adminRouter.use(passport.session())
                 console.log(req.body.itemName , ' DELETED SUCCESSFULLY, with result: ', result)
                 res.redirect('/admin/controlpanel')})
         }
-    })
+    }else if(result===null){res.redirect('/auth/redirectingLogin')}else{res.render('failure.ejs')}})})
 
 module.exports = adminRouter

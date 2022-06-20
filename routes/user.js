@@ -1,23 +1,20 @@
-const User = require('../models/user')
+
 const passport = require('passport')
 const userRouter = require('express').Router()
-const Role = require('../models/role')
-const {registerAdmin, registerUser, registerChef} = require("../controllers/users")
-const {checkAuthDebug, authLogout, checkAuth} = require("../controllers/login")
+const {checkAuth} = require("../controllers/login")
 const menuItem = require("../models/menuItem");
 const Order = require('../models/order')
-const {db} = require('../public/js/app');
-const async = require("async");
 
 userRouter.use(passport.session())
 
     .get('/order', (req, res)=>{
-        checkAuth(req, res, "user")
+        checkAuth(req,res,'user').then(result => {console.log(result);if(result){
         menuItem.find({}).then(items =>{
             res.render('order.ejs', {items: items})})
-    })
+    }else if(result===null){res.redirect('/auth/redirectingLogin')}else{res.render('failure.ejs')}})})
 
     .post('/orderstatus', (req, res)=>{
+        checkAuth(req,res,'user').then(result => {console.log(result);if(result){
         console.log('Saving Order to the DATABASE...')
         //creating the string array for the database
         const itemNameArr = (req.body.itemNameInput)
@@ -30,8 +27,7 @@ userRouter.use(passport.session())
         order.save().then(savedOrder => {console.log('##Order Registered Successfully')
             res.render('orderStatus.ejs', {savedOrder: savedOrder})
         }).catch(err =>console.log('##An error occurred: ', err))
-
-    })
+        }else if(result===null){res.redirect('/auth/redirectingLogin')}else{res.render('failure.ejs')}})})
 
     .get('/orderstatus', (req, res)=>{
         //EVENT SOURCE HANDLING FOR CHEF AUTO-UPDATING ORDER LIST
@@ -49,7 +45,9 @@ userRouter.use(passport.session())
             console.log("Refreshing the page for new content..")
         })
     })
+
     .get('/orderstatus/:id', (req, res)=>{
+
         Order.findOne({_id: req.params.id}).then(savedOrder => {
             //data must contain the new status that just changed in case of multiple reloading (go check orderstatus.ejs eventsource)
             console.log("Updating the page..")

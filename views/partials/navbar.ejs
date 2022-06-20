@@ -2,8 +2,20 @@
 <nav class="nav">
     <h1><a href="/" class="logo">Burger Box</a></h1>
     <div class="nav-right">
-        <a class="active" href="/auth/login">login</a>
+        <a class="active" id="loginbtn" href="/auth/login">login</a>
         <a href="/auth/register">register</a>
-        <a href="/auth/logout">logout</a>
+        <a id="logoutbtn" href="/auth/logout">logout</a>
     </div>
 </nav>
+<script>
+    <%if(typeof isAuth ==='undefined'){%>
+    //handle hidden login, the user is for sure in an authenticated page
+    document.getElementById('loginbtn').setAttribute('style', 'display: none;')
+    <%}else if(isAuth===true){%>
+    //handle hidden login, the user is for sure in an authenticated page
+    document.getElementById('loginbtn').setAttribute('style', 'display: none;')
+    <%}else{%>
+    //the user is not authenticated
+    document.getElementById('logoutbtn').setAttribute('style', 'display: none;')
+    <%}%>
+</script>

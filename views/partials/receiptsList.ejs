@@ -1,0 +1,15 @@
+<link rel="stylesheet" type="text/css" href="/receiptsList.css">
+<div class="scrolldiv">
+    <h2>Receipt List:</h2>
+    <ul class="receiptList">
+        <% receipts.forEach(function(receipt, id) { %>
+        <li>
+            <h3>Order Number <strong><%=id + 1%></strong>:</h3>
+            <p class="username">Username: <%= receipt.username %></p>
+            <%receipt.itemNameArray.forEach(function (itemlist, index) {%>
+            <p class="itemlist">Item number <strong><%= index + 1%></strong>: <%= itemlist%></p><%})%>
+            <p class="total">The total of order number <strong><%=id + 1%></strong> is <%= receipt.total %> €</p>
+            <%})%>
+        </li>
+    </ul>
+</div>

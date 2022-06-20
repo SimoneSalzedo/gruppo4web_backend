@@ -5,7 +5,6 @@
 
 .content{
     width: 50%;
-    margin: auto;
     padding: 100px 0;
 }
 
@@ -22,8 +21,10 @@ footer {
 }
 footer p{
     color: #ababab;
-    column-count: 2;
-    column-gap: 50px;
     font-size: 1em;
     font-weight: 300;
+}
+
+a,a:active {
+    color: inherit;
 }
