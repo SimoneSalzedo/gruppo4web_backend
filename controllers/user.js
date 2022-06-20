@@ -7,17 +7,20 @@ const menuItem = require("../models/menuItem");
 const Order = require('../models/order')
 
 exports.getOrder = function(req, res) {
-    checkAuth(req,res,'user').then(result => {console.log(result);if(result){
+    checkAuth(req,res,'user').then(result => {if(result){
         menuItem.find({}).then(items =>{
             res.render('order.ejs', {items: items})})
     }else if(result===null){res.redirect('/auth/redirectingLogin')}else{res.render('failure.ejs')}})
 }
 
 exports.postOrderStatus = function (req, res) {
-    checkAuth(req,res,'user').then(result => {console.log(result);if(result){
+    checkAuth(req,res,'user').then(result => {if(result){
         console.log('Saving Order to the DATABASE...')
         //creating the string array for the database
         const itemNameArr = (req.body.itemNameInput)
+        console.log(typeof itemNameArr)
+        if(!(itemNameArr === undefined)){
+            console.log('SONO ENTRATO')
         const order = new Order({
             username: req.session.passport.user,
             itemNameArray: itemNameArr,
@@ -26,7 +29,8 @@ exports.postOrderStatus = function (req, res) {
         })
         order.save().then(savedOrder => {console.log('##Order Registered Successfully')
             res.render('orderStatus.ejs', {savedOrder: savedOrder})
-        }).catch(err =>console.log('##An error occurred: ', err))
+        }).catch(err =>console.log('##An error occurred: ', err))}
+        else(res.render('emptyorder.ejs'))
     }else if(result===null){res.redirect('/auth/redirectingLogin')}else{res.render('failure.ejs')}})
 }
 
