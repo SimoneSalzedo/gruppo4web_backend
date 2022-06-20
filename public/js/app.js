@@ -1,3 +1,7 @@
+/*
+* Importing all App needed functionalities
+* */
+
 const config = require('../../utils/config')
 const express = require('express')
 const app = express()
@@ -17,9 +21,10 @@ const path = require('path')
 const menuItem = require("../../models/menuItem")
 const chefRouter = require("../../routes/chef")
 const userRouter = require("../../routes/user")
-//connecting to mongodb...
-console.log('connecting to', config.MONGODB_URI)
 
+//connecting to mongodb...
+
+console.log('connecting to', config.MONGODB_URI)
 mongoose.connect(config.MONGODB_URI) //Bug that gives warning
     .then(() => {
         console.log('connected to MongoDB')
@@ -54,7 +59,9 @@ app.use(passport.session())
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
-//request handling...
+
+//basic request handling...
+
 app.get('/',(req, res, next)=>{
     checkAuthDebug(req)
     console.log(dirname)
@@ -68,5 +75,7 @@ app.get('/failure', (req, res) => {
 app.get('/unauthorized', (req, res) => {
     res.render('unauthorized.ejs')
 })
+
 //exporting the module...
+
 module.exports = app;

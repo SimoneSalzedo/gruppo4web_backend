@@ -9,6 +9,9 @@
     <p>Your order is composed of: <p>
     <ul><%savedOrder.itemNameArray.forEach(item => { %>
         <li><%=item%><%})%></li>
+        <%if(!savedOrder.itemNameArray.length){%>
+            <li>Your order is empty!, are you messing with us !? ლ(ಠ益ಠლ</li>
+        <%}%>
     </ul>
     <p id="status"> The status of your order is <span id="span"><%=savedOrder.status%></span></p>
     <p id="statusinfo">
@@ -16,7 +19,7 @@
 <div id="loader"></div>
 </body>
 <script>
-    const eventSource = new EventSource(`http://localhost:3001/chef/chefstream/<%=savedOrder._id%>`, { withCredentials: true })
+    const eventSource = new EventSource(`http://localhost:3000/chef/chefstream/<%=savedOrder._id%>`, { withCredentials: true })
         //data contains the updated status of the order
         if(document.getElementById('span').textContent==='pending'){
             document.getElementById('statusinfo').textContent = `A chef will take your order ASAP`
@@ -26,6 +29,6 @@
             document.getElementById('loader').setAttribute('style', 'display: none;')
             document.getElementById('statusinfo').textContent = `You can go retrieve your order!!`
         }
-    eventSource.onmessage = (e) => {window.location.href = "http://localhost:3001/user/orderStatus/<%=savedOrder._id%>"}
+    eventSource.onmessage = (e) => {window.location.href = "http://localhost:3000/user/orderStatus/<%=savedOrder._id%>"}
 </script>
 </html>

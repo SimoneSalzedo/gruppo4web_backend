@@ -32,13 +32,13 @@
     </li>
 </ul>
     <script>
-        const eventSource = new EventSource('http://localhost:3001/user/orderstatus', { withCredentials: true })
+        const eventSource = new EventSource('http://localhost:3000/user/orderstatus', { withCredentials: true })
         eventSource.onmessage = (e) => {
             console.log("Ping arrived!!")
             window.alert(`A new order has arrived or data is changed for whatever reason the page will be refreshed for you to see the updated order list...`)
             window.setTimeout(function(){
                 //refresh current page
-                window.location.href = "http://localhost:3001/chef/chefpanel"
+                window.location.href = "http://localhost:3000/chef/chefpanel"
             }, 100)
         }
     </script>

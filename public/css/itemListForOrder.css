@@ -88,6 +88,7 @@
     color: #262a2b;
 }
 
+
 .menuList li button:hover:before {
     left: 0;
     opacity: 1;
@@ -176,21 +177,26 @@ h2 {
     text-decoration: none;
 }
 
-#paynow {
+#paybtn {
     width: 100%;
     margin-top: 1vh;
     float: left;
     color: #ffffff;
     text-align: center;
     padding: 12px;
-    text-decoration: none;
     line-height: 25px;
     border-radius: 4px;
     font-size: 25px;
     font-weight: bold;
     background-color: #ffa51e;
-
+    cursor:pointer;
 }
+
+#paybtn:hover {
+    color: #ffffff;
+    background-color: #be7b17;
+}
+
 
 .hidden {
     display: none;

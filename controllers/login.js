@@ -1,8 +1,10 @@
-//functions for Login, Session and Authentication
+/*
+* This controller manages all the authentication needed for the Application to work,
+* The exported function 'checkAuth' is used in other controllers to check the authentications of the current User
+*/
+
 const User = require('../models/user')
-const passport = require('passport')
 const Role = require('../models/role')
-const {check} = require("express-validator");
 
 exports.checkAuthDebug = function(req) {
     console.log('Your authenticaton is ', req.isAuthenticated())}
@@ -19,7 +21,7 @@ exports.getAuthenticatedUsername = function (req, res) {
 }
 
 exports.checkAuth = async function (req, res, authToCheck){
-    //return true if user is authenticated with the matching requirement, false otherwise
+    //return true if user is authenticated with the matching requirement, false if the user is logged but have no authorization to see the page
     if(req.isAuthenticated()){
         console.log('Your authenticaton is ', req.isAuthenticated())
         return await Role.findOne({username: req.session.passport.user}).then(result =>{
@@ -30,12 +32,52 @@ exports.checkAuth = async function (req, res, authToCheck){
             } else {
                 console.log('User Unauthorized')
                 return false;
-                //res.render('failure.ejs')
+                //this will render 'failure.ejs'
             }
         }).catch(err => console.log("An error occurred", err))
     }else{
         //return null is there is no authorization (user/admin/chef is not logged)
         return null;
-        //res.redirect('/auth/redirectingLogin')
+        //this will redirect to '/auth/redirectingLogin'
     }
 }
+
+exports.registerAdmin = function (req, res){
+    console.log('##registering a new Admin to the DataBase')
+    User.register(new User({username: req.body.email}), req.body.password, function(err) {
+        if (err) {
+            console.log('##an error occurred while registering a new Admin to the DataBase', err)
+        }
+        console.log('##registering...')})
+    const role = new Role({
+        username: req.body.email,
+        userType: 'admin'
+    })
+    role.save().then(savedRole => console.log('##Admin Registered Successfully')).catch(err =>console.log('##An error occurred: ', err))}
+
+exports.registerUser = function (req, res){
+    console.log('##registering a new Admin to the DataBase')
+    User.register(new User({username: req.body.email}), req.body.password, function(err) {
+        if (err) {
+            console.log('##registering a new User to the DataBase', err)
+        }
+        console.log('##registering...')
+        const role = new Role({
+            username: req.body.email,
+            userType: 'user'
+        })
+        role.save().then(savedRole => console.log('##Admin Registered Successfully')).catch(err =>console.log('##An error occurred: ', err))})}
+
+exports.registerChef = function(req, res) {
+    console.log('##registering a new Chef to the DataBase')
+    User.register(new User({username: req.body.email}), req.body.password, function(err) {
+        if (err) {
+            console.log('##registering a new Chef to the DataBase', err)
+        }
+        console.log('##registering...')
+    })
+    const role = new Role({
+        username: req.body.email,
+        userType: 'chef'
+    })
+    role.save().then(savedRole => console.log('##Chef Registered Successfully')).catch(err =>console.log('##An error occurred: ', err))}

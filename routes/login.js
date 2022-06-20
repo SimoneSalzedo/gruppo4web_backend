@@ -1,8 +1,9 @@
-const User = require('../models/user')
 const passport = require('passport')
 const loginRouter = require('express').Router()
-const {registerAdmin, registerUser, registerChef} = require("../controllers/users")
+const {registerAdmin, registerUser, registerChef} = require("../controllers/login")
 const {checkAuthDebug, authLogout, checkAuth} = require("../controllers/login")
+
+//router to handle all authorizations requirements, logout, login and register (for all usertype)
 
 loginRouter.use(passport.session())
 
