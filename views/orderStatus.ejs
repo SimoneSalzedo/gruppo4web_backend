@@ -2,6 +2,7 @@
 <html lang="en">
 <head><title>Order Status</title></head>
 <link rel="stylesheet" type="text/css" href="/orderStatus.css">
+<%if(!(savedOrder === null)){%>
 <body>
 <div class="orderContainer">
     <h2>Here is your order:</h2>
@@ -31,4 +32,5 @@
         }
     eventSource.onmessage = (ping) => {window.location.href = "http://localhost:3000/user/orderStatus/<%=savedOrder._id%>"}
 </script>
+<%}else{%><script> window.location.href ="http://localhost:3000/"</script><%}%>
 </html>

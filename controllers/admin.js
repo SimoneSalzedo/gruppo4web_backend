@@ -20,8 +20,10 @@ exports.postControlPanel = function (req, res) {
     //Create or Update entry based on its name
     checkAuth(req,res,'admin').then(result => {if(result){
         if(req.body.createupdate){
-            menuItem.find({itemName: req.body.itemName}).then(async result => {
-                if (JSON.stringify(result).substring(47, 47 + req.body.itemName.length) !== req.body.itemName) {
+            menuItem.findOne({itemName: req.body.itemName}).then(async result => {
+                //if no such item exist, result is null
+                console.log(typeof result)
+                if (result === null) {
                     const item = new menuItem({
                         itemName: req.body.itemName,
                         price: req.body.price,
@@ -33,7 +35,11 @@ exports.postControlPanel = function (req, res) {
                     })
                         .catch(err => console.log('And error occurred: ', err))
                 } else {
-                    await menuItem.updateOne({itemName: req.body.itemName}, {$set: {'price': req.body.price}})
+                    if(req.body.description.trimStart()===""){
+                        await menuItem.updateOne({itemName: req.body.itemName}, {$set: {'price': req.body.price}})
+                    }
+                    else {
+                        await menuItem.updateOne({itemName: req.body.itemName}, {$set: {'price': req.body.price, 'description': req.body.description}})}
                     res.redirect('/admin/controlpanel')
                 }
             }).catch(err =>console.log('And error occurred: ', err))}

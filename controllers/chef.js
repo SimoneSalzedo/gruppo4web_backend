@@ -50,10 +50,9 @@ exports.getChefStream = async function (req, res) {
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
     })
     changeStream.on('change', () => {
-        console.log('im here', req.params.id)
         Order.findOne({_id: req.params.id}).then(result => {
-            //ping the EventSource, for debug purposes we use the status
-            res.write(`data: ${result.status}\n\n\ `)
+            //ping the EventSource, we use the status for debug purposes
+            res.write(`data: ${typeof result}\n\n\ `)
         }).catch(err => console.log('An error occurred:', err))
         console.log("Updating the page..")
     })

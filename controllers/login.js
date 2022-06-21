@@ -53,7 +53,11 @@ exports.registerAdmin = function (req){
         username: req.body.email,
         userType: 'admin'
     })
-    role.save().then(savedRole => console.log('##Admin Registered Successfully ', savedRole)).catch(err =>console.log('##An error occurred: ', err))}
+    role.save().then(savedRole => console.log('##Admin Registered Successfully ', savedRole)).catch(err =>
+    {
+        console.log('##An error occurred: ', err)
+        if(err.toString().includes('duplicate key error')){console.log('This mail Already exist')}
+    })}
 
 exports.registerUser = function (req){
     console.log('##registering a new Admin to the DataBase')
@@ -66,7 +70,12 @@ exports.registerUser = function (req){
             username: req.body.email,
             userType: 'user'
         })
-        role.save().then(savedRole => console.log('##Admin Registered Successfully ', savedRole)).catch(err =>console.log('##An error occurred: ', err))})}
+        role.save().then(savedRole => console.log('##Admin Registered Successfully ', savedRole)).catch(err =>
+        {
+            console.log('##An error occurred: ', err)
+            if(err.toString().includes('duplicate key error')){console.log('This mail Already exist')}
+        }
+        )})}
 
 exports.registerChef = function(req) {
     console.log('##registering a new Chef to the DataBase')
@@ -80,4 +89,8 @@ exports.registerChef = function(req) {
         username: req.body.email,
         userType: 'chef'
     })
-    role.save().then(savedRole => console.log('##Chef Registered Successfully ', savedRole)).catch(err =>console.log('##An error occurred: ', err))}
+    role.save().then(savedRole => console.log('##Chef Registered Successfully ', savedRole)).catch(err =>
+    {
+        console.log('##An error occurred: ', err)
+        if(err.toString().includes('duplicate key error')){console.log('This mail Already exist')}
+    })}
